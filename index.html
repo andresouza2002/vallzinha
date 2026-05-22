@@ -221,6 +221,29 @@ body{
   line-height:1.6;
 }
 </style>
+
+<!-- UTM TIKTOK ADS -->
+<script>
+(function () {
+
+  const params = new URLSearchParams(window.location.search);
+
+  const utms = {
+    ttclid: params.get("ttclid"),
+    utm_source: params.get("utm_source"),
+    utm_campaign: params.get("utm_campaign"),
+    utm_content: params.get("utm_content"),
+    utm_term: params.get("utm_term"),
+    campaign_id: params.get("campaign_id"),
+    adgroup_id: params.get("adgroup_id"),
+    ad_id: params.get("ad_id")
+  };
+
+  localStorage.setItem("tiktok_utms", JSON.stringify(utms));
+
+})();
+</script>
+
 </head>
 
 <body>
@@ -267,6 +290,7 @@ for(let i=0;i<16;i++){
     </div>
 
     <div class="list">
+
       <div class="list-item">
         <span class="check">✓</span>
         Conteúdo exclusivo e privado
@@ -286,6 +310,7 @@ for(let i=0;i<16;i++){
         <span class="check">✓</span>
         Acesso imediato e discreto
       </div>
+
     </div>
 
     <div class="cta" id="ctaBtn">
@@ -364,8 +389,23 @@ ctaBtn.onclick = ()=>{
 
   setTimeout(()=>{
 
-    // TROQUE PELO SEU LINK
-    window.location.href = "https://paylume.fans/l/72e29bbb";
+    // RECUPERA UTMS
+    const saved = JSON.parse(localStorage.getItem("tiktok_utms")) || {};
+
+    // LINK CHECKOUT
+    const url = new URL("https://paylume.fans/l/72e29bbb");
+
+    // ENVIA TODAS AS UTMS
+    Object.keys(saved).forEach(key => {
+
+      if(saved[key]){
+        url.searchParams.set(key, saved[key]);
+      }
+
+    });
+
+    // REDIRECIONA
+    window.location.href = url.toString();
 
   },2600);
 
