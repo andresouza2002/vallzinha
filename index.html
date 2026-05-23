@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Milena Suzart 🔥</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -222,7 +222,7 @@ body{
 }
 </style>
 
-<!-- UTM TIKTOK ADS -->
+<!-- CAPTURA UTMS TIKTOK -->
 <script>
 (function () {
 
@@ -244,6 +244,23 @@ body{
 })();
 </script>
 
+<!-- PIXEL UTMIFY -->
+<script>
+  window.tikTokPixelId = "6a121aa0dceaab2346f6da1d";
+
+  var a = document.createElement("script");
+
+  a.setAttribute("async", "");
+  a.setAttribute("defer", "");
+
+  a.setAttribute(
+    "src",
+    "https://cdn.utmify.com.br/scripts/pixel/pixel-tiktok.js"
+  );
+
+  document.head.appendChild(a);
+</script>
+
 </head>
 
 <body>
@@ -252,11 +269,17 @@ body{
 
 <script>
 for(let i=0;i<16;i++){
+
   const p=document.createElement("div");
+
   p.className="pepper";
+
   p.style.left=Math.random()*100+"vw";
+
   p.style.animationDuration=8+Math.random()*6+"s";
+
   p.textContent="🔥";
+
   document.body.appendChild(p);
 }
 </script>
@@ -267,6 +290,7 @@ for(let i=0;i<16;i++){
 
     <!-- FOTO PERFIL -->
     <!-- COLOQUE SUA FOTO NA MESMA PASTA E USE O NOME perfil.jpg -->
+
     <div class="avatar-wrap">
       <img class="avatar" src="perfil.jpg">
     </div>
@@ -361,21 +385,27 @@ const countdown = setInterval(()=>{
 
 // CTA
 const ctaBtn = document.getElementById("ctaBtn");
+
 const progress = document.getElementById("progress");
+
 const loadingText = document.getElementById("loadingText");
+
 const ctaContent = document.getElementById("ctaContent");
 
 ctaBtn.onclick = ()=>{
 
   ctaContent.style.opacity = "0";
+
   loadingText.style.opacity = "1";
 
   progress.style.width = "30%";
+
   loadingText.textContent = "Preparando acesso…";
 
   setTimeout(()=>{
 
     progress.style.width = "65%";
+
     loadingText.textContent = "Conectando…";
 
   },800);
@@ -383,6 +413,7 @@ ctaBtn.onclick = ()=>{
   setTimeout(()=>{
 
     progress.style.width = "100%";
+
     loadingText.textContent = "Entrando…";
 
   },1600);
@@ -390,16 +421,21 @@ ctaBtn.onclick = ()=>{
   setTimeout(()=>{
 
     // RECUPERA UTMS
-    const saved = JSON.parse(localStorage.getItem("tiktok_utms")) || {};
+    const saved =
+      JSON.parse(localStorage.getItem("tiktok_utms")) || {};
 
     // LINK CHECKOUT
-    const url = new URL("https://paylume.fans/l/72e29bbb?shk=gx9hd4rv");
+    const url = new URL(
+      "https://paylume.fans/l/72e29bbb?shk=gx9hd4rv"
+    );
 
     // ENVIA TODAS AS UTMS
     Object.keys(saved).forEach(key => {
 
       if(saved[key]){
+
         url.searchParams.set(key, saved[key]);
+
       }
 
     });
