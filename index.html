@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Val Gauchinha 🔥</title>
+<title>Mari Bicalho 🔥</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -86,22 +86,6 @@ body{
   backdrop-filter:blur(10px);
 }
 
-.avatar-wrap{
-  width:115px;
-  height:115px;
-  margin:0 auto 12px;
-  border-radius:999px;
-  padding:4px;
-  background:linear-gradient(180deg,#ffbe82,#ff8c42);
-  box-shadow:0 0 25px rgba(255,170,100,.35);
-}
-
-.avatar{
-  width:100%;
-  height:100%;
-  border-radius:999px;
-  object-fit:cover;
-}
 
 .name{
   text-align:center;
@@ -222,31 +206,41 @@ body{
 }
 </style>
 
-<!-- CAPTURA UTMS TIKTOK -->
+<!-- CAPTURA E REPASSE DE UTMS / TIKTOK ADS -->
 <script>
 (function () {
-
   const params = new URLSearchParams(window.location.search);
+  const tracking = {};
 
-  const utms = {
-    ttclid: params.get("ttclid"),
-    utm_source: params.get("utm_source"),
-    utm_campaign: params.get("utm_campaign"),
-    utm_content: params.get("utm_content"),
-    utm_term: params.get("utm_term"),
-    campaign_id: params.get("campaign_id"),
-    adgroup_id: params.get("adgroup_id"),
-    ad_id: params.get("ad_id")
+  // Captura todos os parâmetros que chegarem no link da campanha
+  params.forEach((value, key) => {
+    if (value) tracking[key] = value;
+  });
+
+  // Garante os principais parâmetros usados por TikTok Ads / Utmify
+  const defaults = {
+    utm_source: "tiktok",
+    utm_medium: "paid",
+    utm_campaign: params.get("utm_campaign") || params.get("campaign_id") || "",
+    utm_content: params.get("utm_content") || params.get("ad_id") || "",
+    utm_term: params.get("utm_term") || params.get("adgroup_id") || "",
+    ttclid: params.get("ttclid") || "",
+    campaign_id: params.get("campaign_id") || "",
+    adgroup_id: params.get("adgroup_id") || "",
+    ad_id: params.get("ad_id") || ""
   };
 
-  localStorage.setItem("tiktok_utms", JSON.stringify(utms));
+  Object.keys(defaults).forEach((key) => {
+    if (!tracking[key] && defaults[key]) tracking[key] = defaults[key];
+  });
 
+  localStorage.setItem("tracking_params", JSON.stringify(tracking));
 })();
 </script>
 
 <!-- PIXEL UTMIFY -->
 <script>
-  window.tikTokPixelId = "6a121aa0dceaab2346f6da1d";
+  window.tikTokPixelId = "D856IC3C77UDUGTVJ390";
 
   var a = document.createElement("script");
 
@@ -288,14 +282,7 @@ for(let i=0;i<16;i++){
 
   <div class="card">
 
-    <!-- FOTO PERFIL -->
-    <!-- COLOQUE SUA FOTO NA MESMA PASTA E USE O NOME perfil.jpg -->
-
-    <div class="avatar-wrap">
-      <img class="avatar" src="perfil.jpg">
-    </div>
-
-    <div class="name">Val Gauchinha 🔥</div>
+    <div class="name">Mari Bicalho 🔥</div>
 
     <div class="online">● respondendo agora</div>
 
@@ -420,24 +407,15 @@ ctaBtn.onclick = ()=>{
 
   setTimeout(()=>{
 
-    // RECUPERA UTMS
-    const saved =
-      JSON.parse(localStorage.getItem("tiktok_utms")) || {};
+    // RECUPERA PARÂMETROS DE RASTREIO
+    const saved = JSON.parse(localStorage.getItem("tracking_params")) || {};
 
-    // LINK CHECKOUT
-    const url = new URL(
-      "https://paylume.fans/l/72e29bbb?shk=gx9hd4rv"
-    );
+    // LINK FINAL
+    const url = new URL("https://paylume.fans/l/72e29bbb?shk=gx9hd4rv");
 
-    // ENVIA TODAS AS UTMS
+    // ENVIA TODAS AS UTMS E PARÂMETROS DO TIKTOK ADS
     Object.keys(saved).forEach(key => {
-
-      if(saved[key]){
-
-        url.searchParams.set(key, saved[key]);
-
-      }
-
+      if(saved[key]) url.searchParams.set(key, saved[key]);
     });
 
     // REDIRECIONA
