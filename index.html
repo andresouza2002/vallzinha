@@ -222,32 +222,44 @@ body{
 }
 </style>
 
-
-<!-- CAPTURA UTMS TIKTOK -->
+<!-- CAPTURA E REPASSE DE UTMS / TIKTOK ADS -->
 <script>
 (function () {
 
   const params = new URLSearchParams(window.location.search);
 
-  const utms = {
-    ttclid: params.get("ttclid"),
-    utm_source: params.get("utm_source"),
-    utm_campaign: params.get("utm_campaign"),
-    utm_content: params.get("utm_content"),
-    utm_term: params.get("utm_term"),
-    campaign_id: params.get("campaign_id"),
-    adgroup_id: params.get("adgroup_id"),
-    ad_id: params.get("ad_id")
+  const tracking = {};
+
+  params.forEach((value, key) => {
+    if (value) tracking[key] = value;
+  });
+
+  const defaults = {
+    utm_source: "tiktok",
+    utm_medium: "paid",
+    utm_campaign: params.get("utm_campaign") || params.get("campaign_id") || "",
+    utm_content: params.get("utm_content") || params.get("ad_id") || "",
+    utm_term: params.get("utm_term") || params.get("adgroup_id") || "",
+    ttclid: params.get("ttclid") || "",
+    campaign_id: params.get("campaign_id") || "",
+    adgroup_id: params.get("adgroup_id") || "",
+    ad_id: params.get("ad_id") || ""
   };
 
-  localStorage.setItem("tiktok_utms", JSON.stringify(utms));
+  Object.keys(defaults).forEach((key) => {
+    if (!tracking[key] && defaults[key]) {
+      tracking[key] = defaults[key];
+    }
+  });
+
+  localStorage.setItem("tracking_params", JSON.stringify(tracking));
 
 })();
 </script>
 
 <!-- PIXEL UTMIFY -->
 <script>
-  window.tikTokPixelId = "D856IC3C77UDUGTVJ390";
+  window.tikTokPixelId = "D8ARLRRC77UANKFS2VG0";
 
   var a = document.createElement("script");
 
@@ -270,11 +282,17 @@ body{
 
 <script>
 for(let i=0;i<16;i++){
+
   const p=document.createElement("div");
+
   p.className="pepper";
+
   p.style.left=Math.random()*100+"vw";
+
   p.style.animationDuration=8+Math.random()*6+"s";
+
   p.textContent="🔥";
+
   document.body.appendChild(p);
 }
 </script>
@@ -284,7 +302,6 @@ for(let i=0;i<16;i++){
   <div class="card">
 
     <!-- FOTO PERFIL -->
-    <!-- COLOQUE SUA FOTO NA MESMA PASTA E USE O NOME perfil.jpg -->
     <div class="avatar-wrap">
       <img class="avatar" src="perfil.jpg">
     </div>
@@ -302,12 +319,12 @@ for(let i=0;i<16;i++){
       Entre agora e descubra meu lado mais provocante 😈
     </div>
 
-    <!-- TIMER -->
     <div class="timer" id="timer">
       ⏳ 01:00
     </div>
 
     <div class="list">
+
       <div class="list-item">
         <span class="check">✓</span>
         Conteúdo exclusivo e privado
@@ -327,6 +344,7 @@ for(let i=0;i<16;i++){
         <span class="check">✓</span>
         Acesso imediato e discreto
       </div>
+
     </div>
 
     <div class="cta" id="ctaBtn">
@@ -377,21 +395,27 @@ const countdown = setInterval(()=>{
 
 // CTA
 const ctaBtn = document.getElementById("ctaBtn");
+
 const progress = document.getElementById("progress");
+
 const loadingText = document.getElementById("loadingText");
+
 const ctaContent = document.getElementById("ctaContent");
 
 ctaBtn.onclick = ()=>{
 
   ctaContent.style.opacity = "0";
+
   loadingText.style.opacity = "1";
 
   progress.style.width = "30%";
+
   loadingText.textContent = "Preparando acesso…";
 
   setTimeout(()=>{
 
     progress.style.width = "65%";
+
     loadingText.textContent = "Conectando…";
 
   },800);
@@ -399,16 +423,15 @@ ctaBtn.onclick = ()=>{
   setTimeout(()=>{
 
     progress.style.width = "100%";
+
     loadingText.textContent = "Entrando…";
 
   },1600);
 
   setTimeout(()=>{
 
-    // TROQUE PELO SEU LINK
-    
     const saved =
-      JSON.parse(localStorage.getItem("tiktok_utms")) || {};
+      JSON.parse(localStorage.getItem("tracking_params")) || {};
 
     const url = new URL(
       "https://paylume.fans/l/72e29bbb?shk=gx9hd4rv"
@@ -425,7 +448,6 @@ ctaBtn.onclick = ()=>{
     });
 
     window.location.href = url.toString();
-
 
   },2600);
 
